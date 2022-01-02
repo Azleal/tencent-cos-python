@@ -1,0 +1,1 @@
+name = "tencent-cos-python"
