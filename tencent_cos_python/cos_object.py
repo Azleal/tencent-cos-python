@@ -7,8 +7,8 @@ from qcloud_cos import CosS3Client
 from urllib3.util import parse_url
 
 from tencent_cos_python.cos_client_factory import CosClientFactory
-from logger import Logger
-from util import Util
+from tencent_cos_python.logger import Logger
+from tencent_cos_python.util import Util
 
 logger = Logger().get()
 
