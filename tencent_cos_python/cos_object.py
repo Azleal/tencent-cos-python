@@ -6,7 +6,7 @@ from os import path
 from qcloud_cos import CosS3Client
 from urllib3.util import parse_url
 
-from cos_client_factory import CosClientFactory
+from tencent_cos_python.cos_client_factory import CosClientFactory
 from logger import Logger
 from util import Util
 
@@ -30,7 +30,7 @@ class CosObject(object):
         response = CosClientFactory.get(self.bucket).get_object(self.bucket, self.key)
         response['Body'].get_stream_to_file(local_file)
         logger.info(
-            u"cos saving bucket:{}, key:{}, to local file{}".format(self.bucket, self.key, local_file))
+            u"tencent_cos_python saving bucket:{}, key:{}, to local file{}".format(self.bucket, self.key, local_file))
         return local_file
 
     def put_object(self, local_file_path):
@@ -40,7 +40,7 @@ class CosObject(object):
                 Body=fp,
                 Key=self.key
             )
-        logger.info("put local file path:{}, to cos bucket:{}, with key:{}, got Etag: {}"
+        logger.info("put local file path:{}, to tencent_cos_python bucket:{}, with key:{}, got Etag: {}"
                     .format(local_file_path, self.bucket, self.key, response['ETag']))
 
     def get_cos_client(self) -> CosS3Client:

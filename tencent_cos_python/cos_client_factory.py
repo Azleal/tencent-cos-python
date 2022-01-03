@@ -2,7 +2,7 @@ import os
 from qcloud_cos import CosConfig
 from qcloud_cos import CosS3Client
 
-PREFIX = "tencent.cos."
+PREFIX = "tencent.tencent_cos_python."
 SPLITTER = "."
 
 
