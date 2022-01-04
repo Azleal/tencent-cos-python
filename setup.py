@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tencent-cos-python-azleal",
-    version="0.0.6",
+    version="0.0.9",
     author="Azleal",
     author_email="azleal.mr@gmail.com",
     description="easy use for tencent_cos_python client",

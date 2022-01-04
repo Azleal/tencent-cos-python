@@ -1,1 +1,1 @@
-name = "tencent-tencent_cos_python-python"
+name = "tencent_cos_python"

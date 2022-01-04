@@ -6,7 +6,6 @@ from os import path
 from qcloud_cos import CosS3Client
 from urllib3.util import parse_url
 
-from tencent_cos_python.cos_client_factory import CosClientFactory
 from tencent_cos_python.logger import Logger
 from tencent_cos_python.util import Util
 
@@ -21,30 +20,27 @@ class CosObject(object):
         self.bucket = bucket
         self.key = key
 
-    def object_exists(self):
-        return CosClientFactory.get(self.bucket).object_exists(self.bucket, self.key)
+    def object_exists(self, cos_client: CosS3Client):
+        return cos_client.object_exists(self.bucket, self.key)
 
-    def get_object(self, local_file=None):
+    def get_object(self, cos_client: CosS3Client, local_file=None):
         ext = path.splitext(self.key)[1]
         local_file = local_file if local_file is not None else Util.get_random_path(length=30, non_dot_ext=ext)
-        response = CosClientFactory.get(self.bucket).get_object(self.bucket, self.key)
+        response = cos_client.get_object(self.bucket, self.key)
         response['Body'].get_stream_to_file(local_file)
         logger.info(
             u"tencent_cos_python saving bucket:{}, key:{}, to local file{}".format(self.bucket, self.key, local_file))
         return local_file
 
-    def put_object(self, local_file_path):
+    def put_object(self, cos_client: CosS3Client, local_file_path):
         with open(local_file_path, 'rb') as fp:
-            response = CosClientFactory.get(self.bucket).put_object(
+            response = cos_client.put_object(
                 Bucket=self.bucket,
                 Body=fp,
                 Key=self.key
             )
         logger.info("put local file path:{}, to tencent_cos_python bucket:{}, with key:{}, got Etag: {}"
                     .format(local_file_path, self.bucket, self.key, response['ETag']))
-
-    def get_cos_client(self) -> CosS3Client:
-        return CosClientFactory.get(self.bucket)
 
     @staticmethod
     def url_2_cos_info(self, url):
